@@ -1,4 +1,4 @@
-FROM golang:alpine AS stage
+FROM --platform=$BUILDPLATFORM golang:alpine AS stage
 
 WORKDIR /app
 
@@ -7,9 +7,9 @@ RUN go mod download
 
 COPY main.go ./
 
-RUN go build -o ddns-updater
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o ddns-updater
 
-FROM golang:alpine 
+FROM --platform=$BUILDPLATFORM golang:alpine 
 
 WORKDIR /app
 RUN mkdir persistence
