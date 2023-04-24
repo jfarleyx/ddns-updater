@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: {{ printf "%s-%s" .Release.Name "configmap" }}
+  labels: 
+    {{ include "ddns-updater.labels" . }}
+data: 
+  DDNS_BASEHOST: "{{ .Values.configmap.ddnsBasehost }}"
+  DDNS_UPDHOST: "{{ .Values.configmap.ddnsUpdhost }}"
+  DDNS_DNSHOST: "{{ .Values.configmap.ddnsDNShost }}"
+  DDNS_WILDCARD: "{{ .Values.configmap.ddnsWildcard }}"
+  DDNS_MX: "{{ .Values.configmap.ddnsMX }}"
+  DDNS_BACKMX: "{{ .Values.configmap.ddnsBackMX }}"
+  DDNS_DBPATH: "{{ .Values.configmap.ddnsDBpath }}"
+  DDNS_INTERVAL: "{{ .Values.configmap.ddnsInterval }}"
+  DDNS_DEBUG: "{{ .Values.configmap.ddnsDebug }}"
+    

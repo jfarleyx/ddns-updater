@@ -18,3 +18,5 @@ COPY --from=stage /app/ddns-updater .
 COPY ./persistence/ip.db ./persistence/
 
 CMD ["./ddns-updater"]
+
+EXPOSE 9376/tcp

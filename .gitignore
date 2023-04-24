@@ -20,7 +20,8 @@
 # Go workspace file
 go.work
 
-dnsomatic-updater
-ddns-updater
-
 .vscode/
+
+secrets.yaml
+my.env
+help.txt

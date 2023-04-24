@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ddns-updater.fullname" . }}
+  labels:
+    {{- include "ddns-updater.labels" . | nindent 4 }}
+
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.service.port }}
+      name: tcp
+  selector:
+    {{- include "ddns-updater.selectorLabels" . | nindent 4 }}
+    selectorTag: {{ .Values.service.selector }}

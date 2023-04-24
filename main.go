@@ -28,6 +28,9 @@ var k = koanf.NewWithConf(conf)
 
 const (
 	prefix = "DDNS_"
+	listener_host = "0.0.0.0"
+	listener_port = "9376"
+	listener_type = "tcp"
 )
 
 func main() {
@@ -47,9 +50,34 @@ func main() {
 
 	createFileStorage(conf.DBPath)
 
-	MonitorIPAddress(conf)
+	go MonitorIPAddress(conf)
+
+	// Listen for incoming connections.
+    l, err := net.Listen(listener_type, listener_host+":"+listener_port)
+    if err != nil {
+        fmt.Println("Error listening:", err.Error())
+        os.Exit(1)
+    }
+
+    // Close the listener when the application closes.
+    defer l.Close()
+    fmt.Println("Listening for health check on " + listener_host + ":" + listener_port)
+    for {
+        // Listen for an incoming connection.
+        _, err := l.Accept()
+        if err != nil {
+            fmt.Println("Error accepting: ", err.Error())
+            os.Exit(1)
+        }
+        // Handle connections in a new goroutine.
+        go handleHealthCheck()
+    }
 
 	log.Info().Msg("Shutting down")
+}
+
+func handleHealthCheck() {
+	//log.Debug().Msg("Health check")
 }
 
 func loadConfig(envFile string) Config {
@@ -104,7 +132,7 @@ func MonitorIPAddress(conf Config) {
 	ticker := time.NewTicker(conf.Interval)
 
 	log.Info().Msgf("Starting DNS check loop interval: %v", conf.Interval)
-	for range ticker.C {
+	for ; true; <-ticker.C {
 		// get public IP address using API
 		ip, err := getPublicIP(conf)
 		if err != nil {

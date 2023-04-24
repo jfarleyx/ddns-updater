@@ -1,0 +1,24 @@
+version: '3'
+services:
+  ddns:
+    image: jmfarley/ddns-updater:0.9.1
+    restart: always
+    ports:
+      - "9376:9376"
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - DDNS_BASEHOST=myip.dnsomatic.com
+      - DDNS_UPDHOST=updates.dnsomatic.com
+      - DDNS_UN=
+      - DDNS_PW=
+      - DDNS_DNSHOST=home
+      - DDNS_WILDCARD=NOCHG
+      - DDNS_MX=NOCHG
+      - DDNS_BACKMX=NOCHG
+      - DDNS_DBPATH=./persistence/ip.db
+      - DDNS_INTERVAL=60s
+      - DDNS_DEBUG=true
+
+    
