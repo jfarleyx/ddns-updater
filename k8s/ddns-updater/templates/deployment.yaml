@@ -41,13 +41,13 @@ spec:
           livenessProbe:
             tcpSocket:
               port: {{ .Values.service.port }}
-            initialDelaySeconds: 60
-            periodSeconds: 30
+            initialDelaySeconds: 20
+            periodSeconds: 15
             failureThreshold: 3
           readinessProbe:
             tcpSocket:
               port: {{ .Values.service.port }}
-            initialDelaySeconds: 45
+            initialDelaySeconds: 20
             periodSeconds: 5
             failureThreshold: 3
           resources:

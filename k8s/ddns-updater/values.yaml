@@ -8,7 +8,7 @@ configmap:
   ddnsMX: NOCHG
   ddnsBackMX: NOCHG
   ddnsDBpath: ./persistence/ip.db
-  ddnsInterval: 90s
+  ddnsInterval: 300s
   ddnsDebug: true
 
 image:
